@@ -24,7 +24,7 @@
           </td>
           <td>{{$post->content}}</td>
           <td>{{$post->slug}}</td>
-          <td class="text-center">{{$post->category? $post->category->name: '-'}}</td>
+          <td class="text-center">{{$post->category? $post->category->name : '-'}}</td>
           <td class="d-flex">
             <a class="m-2" href="{{route("admin.posts.show", $post->id)}}">
               <button type="button" class="btn btn-primary p-2">

@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    protected $validate = [
+        'title' => 'required|max:255',
+        'content' => 'required',
+        'category_id' => 'nullable|exists:categories,id'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +34,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -40,10 +46,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required'
-        ]);
+        $request->validate($this->validate);
 
         $form_data = $request->all();
 
@@ -93,27 +96,24 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required'
-        ]);
+        $request->validate($this->validate);
 
         $form_data = $request->all();
 
-        $slug = Str::slug($form_data['title']);
-        $count = 1;
-        while(Post::where('slug', $slug)
-            ->where('id', '!=, $post->id')
-            ->first()){
-            $slug = Str::slug($form_data['title'])."-".$count;
-            $count++;
+        if($post->title == $form_data ['title']){            
+            $slug = $post->slug;
+        }else{
+            $slug = Str::slug($form_data['title']);        
+            $count = 1;
+            while(Post::where('slug', $slug)->where('id', '!=', $post->id)->first()){
+                $slug = Str::slug($form_data['title'])."-".$count;
+                $count ++;
+            }
         }
         $form_data['slug'] = $slug;
-        $new_post = new Post();
-
-        $new_post->update($form_data);
+        
+        $post->update($form_data);
         return redirect()->route('admin.posts.index');
-    
     }
 
     /**

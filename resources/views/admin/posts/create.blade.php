@@ -18,6 +18,25 @@
       <div class="alert alert-danger">{{ $message }}</div>
     @enderror
   </div>
+ 
+  <!-- Categories -->
+  <div class="form-group">
+    <label for="">Category</label>
+    <select class="form-control" name="category_id">
+      <option value="">Default select</option>
+      @foreach($categories as $category)
+        <option value="{{$category->id}}"
+        {{$category->id}}>
+        {{ $category->name }}
+      </option>
+      @endforeach
+    </select>
+    @error('category_id')
+    <div class="invalid-feeback">{{ $message }}</div>
+    @enderror
+  </div>
+
+ 
   
   <button type="submit" class="btn btn-primary">Add</button>
 </form>
