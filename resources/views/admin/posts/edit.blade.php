@@ -19,6 +19,24 @@
     @enderror
   </div>
 
+ 
+  <!-- Cateegories -->
+  <div class="form-group">
+    <label for="">Category</label>
+    <select class="form-control" name="category_id">
+      <option value="">Default select</option>
+      @foreach($categories as $category)
+      <option value="{{$category->id}}"
+      {{$category->id == old('category_id', $post->category_id) ? 'selected' : ''}}>
+      {{ $category->name }}
+      </option>
+      @endforeach
+    </select>
+  </div>
+
+ 
+
+
   <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
