@@ -10,7 +10,6 @@
       <th scope="col">#</th>
       <th scope="col">Title</th>
       <th scope="col">Content</th>
-      <th scope="col">Published</th>
       <th scope="col">Slug</th>
     </tr>
   </thead>
@@ -22,7 +21,6 @@
           {{$post->title}}
       </td>
       <td>{{$post->content}}</td>
-      <td>{{$post->published}}</td>
       <td>{{$post->slug}}</td>
       <td class="d-flex">
         <a class="m-2" href="{{route("admin.posts.show", $post->id)}}">
