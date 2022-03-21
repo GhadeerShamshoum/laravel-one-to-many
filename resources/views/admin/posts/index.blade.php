@@ -12,6 +12,7 @@
           <th scope="col">Content</th>
           <th scope="col">Slug</th>
           <th scope="col">Categories</th>
+          <th scope="col">Images</th>
 
         </tr>
       </thead>
@@ -25,6 +26,7 @@
           <td>{{$post->content}}</td>
           <td>{{$post->slug}}</td>
           <td class="text-center">{{$post->category? $post->category->name : '-'}}</td>
+          <td>{!!$post->image? '<img style="width:20px" src="'. asset("storage/{$post->image}").'" alt="'.$post->title.'">' : '-'!!}</td>
           <td class="d-flex">
             <a class="m-2" href="{{route("admin.posts.show", $post->id)}}">
               <button type="button" class="btn btn-primary p-2">

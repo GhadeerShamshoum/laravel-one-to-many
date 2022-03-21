@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="text-center">add Post </h1>
-<form action="{{route("admin.posts.store")}}" method="POST">
+<form action="{{route("admin.posts.store")}}" method="POST" enctype="multipart/form-data">
   @csrf
   <div class="form-group col-md-12">
     <label for="title">title</label>
@@ -16,6 +16,15 @@
     <textarea rows="5" class="form-control @error('content') is-invalid @enderror" id="content" name="content" placeholder="add a content">{{old("content")}}</textarea>
     @error('content')
       <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+  </div>
+  <!-- upload an image -->
+  <div class="form-group">
+    <label for="">Image</label>
+    <input type="file" name="image"
+    class="form-control @error('image') is-invalid @enderror">
+    @error('image')
+    <div class="invalid-feedback">{{ $message }}</div>
     @enderror
   </div>
  

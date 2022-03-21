@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use App\Post;
+use Illuminate\Support\facades\Storage;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class PostController extends Controller
     protected $validate = [
         'title' => 'required|max:255',
         'content' => 'required',
-        'category_id' => 'nullable|exists:categories,id'
+        'category_id' => 'nullable|exists:categories,id',
+        'image' => 'nullable| mimes:jpeg, bmp, png,jpg| max:2048'
     ];
     /**
      * Display a listing of the resource.
@@ -49,6 +51,12 @@ class PostController extends Controller
         $request->validate($this->validate);
 
         $form_data = $request->all();
+        if(isset($form_data["image"])){
+            // save img 
+            $img_path = Storage::put('uploads', $form_data['image']);
+            //save img Database
+            $form_data["image"] = $img_path;
+        }
 
         $slugTmp = Str::slug($form_data['title']);
         $count = 1;
@@ -72,6 +80,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if(!$post){
+            abort(404);
+        }
         return view('admin.posts.show', compact('post'));
     }
 
